@@ -1,4 +1,6 @@
 package br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.alugueis;
 
-public interface AluguelRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AluguelRepository extends JpaRepository<Aluguel,Long> {
 }
