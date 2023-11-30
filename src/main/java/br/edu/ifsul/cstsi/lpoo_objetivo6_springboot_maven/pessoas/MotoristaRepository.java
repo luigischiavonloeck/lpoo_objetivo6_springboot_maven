@@ -14,4 +14,6 @@ public interface MotoristaRepository extends JpaRepository<Motorista,Long> {
 
     @Query(value = "select m from Motorista m where m.sexo = ?1")
     List<Motorista> findBySexo(Sexo sexo);
+
+
 }

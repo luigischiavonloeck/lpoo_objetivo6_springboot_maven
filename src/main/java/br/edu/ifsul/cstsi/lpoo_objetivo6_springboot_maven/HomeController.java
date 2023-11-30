@@ -6,6 +6,9 @@ import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.apolices.ApoliceSeguro
 import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.carros.CarroController;
 import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.fabricantes.FabricanteController;
 import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.modelosCarros.ModeloCarroController;
+import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.pessoas.FuncionarioController;
+import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.pessoas.Motorista;
+import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.pessoas.MotoristaController;
 
 import java.util.Scanner;
 
@@ -32,8 +35,8 @@ public class HomeController {
             option = input.nextInt();
             input.nextLine();
             switch (option) {
-                case 1 -> System.out.println("a");
-                case 2 -> System.out.println("b");
+                case 1 -> FuncionarioController.main(null);
+                case 2 -> MotoristaController.main(null);
                 case 3 -> AluguelController.main(null);
                 case 4 -> ApoliceSeguroController.main(null);
                 case 5 -> CarroController.main(null);

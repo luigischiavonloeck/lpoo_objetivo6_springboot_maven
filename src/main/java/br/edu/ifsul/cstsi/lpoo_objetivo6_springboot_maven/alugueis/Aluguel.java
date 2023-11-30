@@ -25,12 +25,20 @@ public class Aluguel {
     private Date dataEntrega;
     private Date dataDevolucao;
     private BigDecimal valorTotal;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "motorista_id", referencedColumnName = "id")
     private Motorista motorista;
     @Embedded
     private ApoliceSeguro apolice;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "carro_id", referencedColumnName = "id")
     private Carro carro;
+
+    @Override
+    public String toString() {
+        return "Aluguel{" +
+                "id=" + id +
+                ", valorTotal=" + valorTotal +
+                '}';
+    }
 }

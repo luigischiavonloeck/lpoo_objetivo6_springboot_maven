@@ -17,7 +17,7 @@ public class Carro {
     private String chassi;
     private String cor;
     private BigDecimal valorDiaria;
-    @OneToMany(mappedBy = "carro")
+    @OneToMany(mappedBy = "carro",fetch = FetchType.EAGER)
     private List<Aluguel> alugueis;
     @ManyToMany
     @JoinTable(

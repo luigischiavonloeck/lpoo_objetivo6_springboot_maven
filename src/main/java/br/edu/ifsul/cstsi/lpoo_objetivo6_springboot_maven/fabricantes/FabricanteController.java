@@ -1,11 +1,5 @@
 package br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.fabricantes;
 
-import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.acessorios.AcessorioController;
-import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.alugueis.AluguelController;
-import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.apolices.ApoliceSeguroController;
-import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.carros.CarroController;
-import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.modelosCarros.ModeloCarroController;
-import ch.qos.logback.core.encoder.JsonEscapeUtil;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;

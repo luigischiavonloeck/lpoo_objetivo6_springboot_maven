@@ -2,25 +2,28 @@ package br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.pessoas;
 
 import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.alugueis.Aluguel;
 import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.alugueis.AluguelService;
+import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Controller
 public class MotoristaController {
     private static final Scanner input = new Scanner(System.in);
     private static MotoristaService MotoristaService;
     private static AluguelService AluguelService;
 
-    public MotoristaController (MotoristaService MotoristaService){
+    public MotoristaController (MotoristaService MotoristaService,AluguelService AluguelService){
         MotoristaController.MotoristaService = MotoristaService;
-    }
-
-    public MotoristaController (AluguelService AluguelService){
         MotoristaController.AluguelService = AluguelService;
     }
+
+    //public MotoristaController (AluguelService AluguelService){
+        //MotoristaController.AluguelService = AluguelService;
+    //}
 
     public static void main(String[] args) {
         int option;
@@ -36,8 +39,6 @@ public class MotoristaController {
                     6. Buscar por nome
                     7. Buscar por sexo
                     8. Buscar por cnh
-                    9. Adicionar aluguel
-                    10. Remover aluguel
                     0. Sair\s""");
             option = input.nextInt();
             input.nextLine();
@@ -50,8 +51,6 @@ public class MotoristaController {
                 case 6 -> searchName();
                 case 7 -> searchSexo();
                 case 8 -> searchCNH();
-                case 9 -> addRental();
-                case 10 -> removeRental();
                 default -> {
                     if (option != 0) System.out.println("Opção Inválida");
                 }
@@ -72,6 +71,7 @@ public class MotoristaController {
         motorista.setSexo(Sexo.valueOf(input.nextLine()));
         System.out.print("CNH do motorista: ");
         motorista.setNumeroCNH(input.nextLine());
+        motorista.setAlugueis(new ArrayList<Aluguel>());
         System.out.println("Motorista criado com sucesso" + MotoristaService.insert(motorista));
     }
 
@@ -173,7 +173,7 @@ public class MotoristaController {
     }
 
     private static void list(){
-        System.out.println("Lista de fabricantes: "+ MotoristaService.getMotoristas());
+        System.out.println("Lista de motoristas: "+ MotoristaService.getMotoristas());
     }
 
     private static void searchId(){
@@ -219,95 +219,95 @@ public class MotoristaController {
         }
     }
 
-    private static void addRental(){
-        Motorista motorista;
-        System.out.println("\n--------  Adicionar aluguel a Motorista  --------");
-        int opcao = 0;
-        do {
-            System.out.print("Digite o codigo do motorista (0 = sair): ");
-            long id = input.nextLong();
-            input.nextLine();
-            if (id == 0){
-                opcao = 0;
-            } else {
-                motorista = MotoristaService.getMotoristaById(id);
-                if (motorista == null){
-                    System.out.println("Codigo inválido");
-                } else {
-                    do {
-                    System.out.println("Nome: "+motorista.getNome());
-                    System.out.print("Alugeis: "+motorista.getAlugueis());
-                    System.out.println("Digite o id do aluguel a adicionar(0 = sair): ");
-                    id = input.nextLong();
-                    input.nextLine();
-                    if(id != 0){
-                        System.out.print(AluguelService.getAluguelById(id));
-                        System.out.println("Adicionar aluguel ao motorista? (0-sim/1-nao): ");
-                        id = input.nextLong();
-                        input.nextLine();
-                        if(id == 0){
-                            motorista.getAlugueis().add(AluguelService.getAluguelById(id));
-                        }
-                    }
-                    } while (id != 0);
-
-                    if(MotoristaService.update(motorista) != null){
-                        System.out.println("Motorista atualizado com sucesso. "+ MotoristaService.getMotoristaById(motorista.getId()));
-                    } else {
-                        System.out.println("Não foi possivel atualizar o motorista");
-                    }
-
-                    opcao = 1;
-                }
-            }
-        } while (opcao != 0);
-    }
-
-    private static void removeRental(){
-        Motorista motorista;
-        System.out.println("\n--------  Remover aluguel de Motorista  --------");
-        int opcao = 0;
-        do {
-            System.out.print("Digite o codigo do motorista (0 = sair): ");
-            long id = input.nextLong();
-            input.nextLine();
-            if (id == 0){
-                opcao = 0;
-            } else {
-                motorista = MotoristaService.getMotoristaById(id);
-                if (motorista == null){
-                    System.out.println("Codigo inválido");
-                } else {
-                    do {
-                        System.out.println("Nome: "+motorista.getNome());
-                        System.out.print("Alugeis: "+motorista.getAlugueis());
-                        System.out.println("Digite o id do aluguel para remover(0 = sair): ");
-                        Aluguel aluguel = AluguelService.getAluguelById(input.nextLong());
-                        input.nextLine();
-                        if(aluguel != null){
-                            System.out.print(AluguelService.getAluguelById(id));
-                            System.out.println("Remover aluguel ao motorista? (0-sim/1-nao): ");
-                            id = input.nextLong();
-                            input.nextLine();
-                            if(id == 0){
-                                motorista.getAlugueis().remove(AluguelService.getAluguelById(id));
-                            }
-                        } else {
-                            System.out.println("Codigo de aluguel invalido!");
-                        }
-                    } while (id != 0);
-
-                    if(MotoristaService.update(motorista) != null){
-                        System.out.println("Motorista atualizado com sucesso. "+ MotoristaService.getMotoristaById(motorista.getId()));
-                    } else {
-                        System.out.println("Não foi possivel atualizar o motorista");
-                    }
-
-                    opcao = 1;
-                }
-            }
-        } while (opcao != 0);
-    }
+//    private static void addRental(){
+//        Motorista motorista;
+//        System.out.println("\n--------  Adicionar aluguel a Motorista  --------");
+//        int opcao = 0;
+//        do {
+//            System.out.print("Digite o codigo do motorista (0 = sair): ");
+//            long id = input.nextLong();
+//            input.nextLine();
+//            if (id == 0){
+//                opcao = 0;
+//            } else {
+//                motorista = MotoristaService.getMotoristaById(id);
+//                if (motorista == null){
+//                    System.out.println("Codigo inválido");
+//                } else {
+//                    do {
+//                    System.out.println("Nome: "+motorista.getNome());
+//                    //System.out.print("Alugeis: "+motorista.getAlugueis());
+//                    System.out.println("Digite o id do aluguel a adicionar(0 = sair): ");
+//                    id = input.nextLong();
+//                    input.nextLine();
+//                    if(id != 0){
+//                        System.out.print(AluguelService.getAluguelById(id));
+//                        System.out.println("Adicionar aluguel ao motorista? (0-sim/1-nao): ");
+//                        id = input.nextLong();
+//                        input.nextLine();
+//                        if(id == 0){
+//                            motorista.getAlugueis().add(AluguelService.getAluguelById(id));
+//                        }
+//                    }
+//                    } while (id != 0);
+//
+//                    if(MotoristaService.update(motorista) != null){
+//                        System.out.println("Motorista atualizado com sucesso. "+ MotoristaService.getMotoristaById(motorista.getId()));
+//                    } else {
+//                        System.out.println("Não foi possivel atualizar o motorista");
+//                    }
+//
+//                    opcao = 1;
+//                }
+//            }
+//        } while (opcao != 0);
+//    }
+//
+//    private static void removeRental(){
+//        Motorista motorista;
+//        System.out.println("\n--------  Remover aluguel de Motorista  --------");
+//        int opcao = 0;
+//        do {
+//            System.out.print("Digite o codigo do motorista (0 = sair): ");
+//            long id = input.nextLong();
+//            input.nextLine();
+//            if (id == 0){
+//                opcao = 0;
+//            } else {
+//                motorista = MotoristaService.getMotoristaById(id);
+//                if (motorista == null){
+//                    System.out.println("Codigo inválido");
+//                } else {
+//                    do {
+//                        System.out.println("Nome: "+motorista.getNome());
+//                        System.out.print("Alugeis: "+motorista.getAlugueis());
+//                        System.out.println("Digite o id do aluguel para remover(0 = sair): ");
+//                        Aluguel aluguel = AluguelService.getAluguelById(input.nextLong());
+//                        input.nextLine();
+//                        if(aluguel != null){
+//                            System.out.print(AluguelService.getAluguelById(id));
+//                            System.out.println("Remover aluguel ao motorista? (0-sim/1-nao): ");
+//                            id = input.nextLong();
+//                            input.nextLine();
+//                            if(id == 0){
+//                                motorista.getAlugueis().remove(AluguelService.getAluguelById(id));
+//                            }
+//                        } else {
+//                            System.out.println("Codigo de aluguel invalido!");
+//                        }
+//                    } while (id != 0);
+//
+//                    if(MotoristaService.update(motorista) != null){
+//                        System.out.println("Motorista atualizado com sucesso. "+ MotoristaService.getMotoristaById(motorista.getId()));
+//                    } else {
+//                        System.out.println("Não foi possivel atualizar o motorista");
+//                    }
+//
+//                    opcao = 1;
+//                }
+//            }
+//        } while (opcao != 0);
+//    }
 
     private static LocalDate dateInput(String userInput){
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
