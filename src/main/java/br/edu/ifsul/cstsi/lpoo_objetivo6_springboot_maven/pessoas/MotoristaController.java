@@ -1,5 +1,6 @@
 package br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.pessoas;
 
+import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.alugueis.Aluguel;
 import br.edu.ifsul.cstsi.lpoo_objetivo6_springboot_maven.alugueis.AluguelService;
 
 import java.time.LocalDate;
@@ -281,16 +282,18 @@ public class MotoristaController {
                         System.out.println("Nome: "+motorista.getNome());
                         System.out.print("Alugeis: "+motorista.getAlugueis());
                         System.out.println("Digite o id do aluguel para remover(0 = sair): ");
-                        motorista.getAlugueis().stream().filter(aluguel -> aluguel.getId()==input.nextLong()).findAny();
+                        Aluguel aluguel = AluguelService.getAluguelById(input.nextLong());
                         input.nextLine();
-                        if(id != 0){
+                        if(aluguel != null){
                             System.out.print(AluguelService.getAluguelById(id));
-                            System.out.println("Adicionar aluguel ao motorista? (0-sim/1-nao): ");
+                            System.out.println("Remover aluguel ao motorista? (0-sim/1-nao): ");
                             id = input.nextLong();
                             input.nextLine();
                             if(id == 0){
-                                motorista.getAlugueis().add(AluguelService.getAluguelById(id));
+                                motorista.getAlugueis().remove(AluguelService.getAluguelById(id));
                             }
+                        } else {
+                            System.out.println("Codigo de aluguel invalido!");
                         }
                     } while (id != 0);
 
